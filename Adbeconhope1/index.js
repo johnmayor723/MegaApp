@@ -24,14 +24,9 @@ app.use('/uploads', express.static('uploads'));
 const MONGODB_URI = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority";
 const SESSION_SECRET = process.env.SESSION_SECRET || 'change_this_secret';
 
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).catch(err => console.error('Mongoose connection error:', err));
 
-mongoose.connection.on('connected', () => console.log(`Mongoose connected to adbeaconhope db`));
-mongoose.connection.on('error', err => console.error('Mongoose connection error:', err));
-mongoose.connection.on('disconnected', () => console.log('Mongoose disconnected'));
+
+
 
 // Middleware
 app.use(express.json());

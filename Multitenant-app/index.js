@@ -39,12 +39,16 @@ const tenantResolver = require("./api/middleware/tenantResolver");
 
 // ===== App Variables =====
 const PORT = process.env.PORT || 3060;
-const DBURL =  'mongodb+srv://fooddeck3:majoje1582@cluster0.smhy0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+//const DBURL =  'mongodb+srv://fooddeck3:majoje1582@cluster0.smhy0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const DB = 'mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority'
+mongoose.connect(DB)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log("Mongoose connection error:", err));              
  // process.env.DBURL ||
 
 
 // ===== Connect Database =====
-connectDB();
+//connectDB();
 
 // ===== View Engine Setup =====
 app.set("view engine", "ejs");
@@ -80,7 +84,7 @@ app.use(
     secret: "mysupersecret",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: DBURL }),
+    store: MongoStore.create({ mongoUrl: DB }),
   })
 );
 

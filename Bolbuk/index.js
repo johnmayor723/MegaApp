@@ -14,14 +14,7 @@ const port = process.env.PORT || 3000;
 const DBURL = process.env.DB_URL;
 const MONGO_URL = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority"
 
-mongoose.connect(MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log(`✅ Mongoose connected to Bolbuk database`);
-}).catch(err => {
-  console.error('❌ Mongoose connection error:', err);
-}); 
+
 
 // ============================
 // ⚙️ View Engine (EJS)
