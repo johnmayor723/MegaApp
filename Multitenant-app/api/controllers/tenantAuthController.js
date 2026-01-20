@@ -10,7 +10,7 @@ const jwtSecret = process.env.JWT_SECRET || "supersecret";
 
 // 🔧 Mail transport (Zoho or replace with another SMTP)
 
-
+/*
 const transporter = nodemailer.createTransport({
   host: "smtp.zoho.com",
   port: 465,
@@ -30,12 +30,27 @@ transporter.verify((error, success) => {
     console.log("✅ SMTP READY");
   }
 });
+*/
 
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  }
+});
+
+transporter.verify((err, success) => {
+  if (err) console.log("❌ SMTP VERIFY FAILED:", err);
+  else console.log("✅ SMTP Verified: Ready to send emails");
+});
 
 // ✉️ Utility: Send email
 const sendEmail = async (to, subject, text) => {
   await transporter.sendMail({
-    from: `"EasyApps" <info@easyhostnet.com>`,
+    from: `"EasyApps" <modigitman@gmail.com>`,
     to,
     subject,
     text,
