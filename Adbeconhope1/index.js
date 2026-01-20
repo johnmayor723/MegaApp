@@ -21,7 +21,7 @@ app.use('/uploads', express.static('uploads'));
 
 
 // DB connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/adbeconhope1';
+const MONGODB_URI = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority";
 const SESSION_SECRET = process.env.SESSION_SECRET || 'change_this_secret';
 
 mongoose.connect(MONGODB_URI, {
@@ -29,7 +29,7 @@ mongoose.connect(MONGODB_URI, {
     useUnifiedTopology: true,
 }).catch(err => console.error('Mongoose connection error:', err));
 
-mongoose.connection.on('connected', () => console.log(`Mongoose connected to ${MONGODB_URI}`));
+mongoose.connection.on('connected', () => console.log(`Mongoose connected to adbeaconhope db`));
 mongoose.connection.on('error', err => console.error('Mongoose connection error:', err));
 mongoose.connection.on('disconnected', () => console.log('Mongoose disconnected'));
 
@@ -70,3 +70,6 @@ app.use('/management', managementRouter);
 
 // Server
 module.exports = app
+// app.listen(PORT, () => { --- IGNORE ---
+//     console.log(`🚀 Server running on port ${PORT}`); --- IGNORE ---
+// }); --- IGNORE ---   

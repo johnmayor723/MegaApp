@@ -18,7 +18,7 @@ mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
-  console.log(`✅ Mongoose connected to ${MONGO_URL}`);
+  console.log(`✅ Mongoose connected to Bolbuk database`);
 }).catch(err => {
   console.error('❌ Mongoose connection error:', err);
 }); 
