@@ -1,0 +1,312 @@
+<style>
+  /* Add your custom styles here */
+  .app-overview {
+  padding: 24px;
+  background: #f8f9fb;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+.app-info {
+  display: flex;
+  gap: 16px;
+}
+
+.app-logo {
+  width: 64px;
+  height: 64px;
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+
+.app-text h2 {
+  margin: 0;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-text p {
+  margin: 4px 0;
+  color: #666;
+}
+
+.app-text small {
+  color: #999;
+}
+
+.edit-icon {
+  font-size: 14px;
+  cursor: pointer;
+  color: #888;
+}
+
+.app-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Grid */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+}
+
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.muted {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Forms */
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #2563eb;
+  color: #fff;
+}
+
+.btn.secondary {
+  background: #111827;
+  color: #fff;
+}
+
+.btn.outline {
+  background: transparent;
+  border: 1px solid #ddd;
+}
+
+.btn.outline.danger {
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+.invite-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Platform badge */
+.badge-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+  }
+
+  .app-actions {
+    width: 100%;
+  }
+}
+    
+</style>
+<%
+  const appSlug = session?.slug || 'Your App';
+  const appUrl  = session?.url || '#';
+%>
+
+<section class="app-overview">
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="app-info">
+      <div class="app-logo">
+        <span>Ecommerce</span>
+      </div>
+
+      <div class="app-text">
+       <h2>
+  <%= appSlug %>
+  <span class="edit-icon">✎</span>
+</h2>
+
+<p>
+  Store URL:
+  <a href="<%= appUrl %>" target="_blank" style="color:#2563eb; text-decoration:none;">
+    <%= appUrl %>
+  </a>
+</p>
+
+<small>Created recently</small>
+
+      </div>
+    </div>
+
+    <div class="app-actions">
+      <button class="btn secondary">Open App</button>
+      <button class="btn outline">Share App <small>win free credits!</small></button>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <div class="overview-grid">
+
+    <!-- App Visibility -->
+    <div class="card">
+      <h3>App Visibility</h3>
+      <p class="muted">Control who can access your application</p>
+
+      <div class="form-group">
+        <select>
+          <option>Public</option>
+          <option>Private</option>
+        </select>
+      </div>
+
+      <label class="checkbox">
+        <input type="checkbox" checked />
+        Require login to access
+      </label>
+    </div>
+
+    <!-- Invite Users -->
+    <div class="card">
+      <h3>Invite Users</h3>
+      <p class="muted">Grow your user base by inviting others</p>
+
+      <div class="invite-actions">
+        <button class="btn outline">Copy Link</button>
+        <button class="btn primary">Send Invites</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Platform Badge -->
+  <div class="card">
+  <h3>Store Branding & Customization</h3>
+  <p class="muted">
+    Customize how your store looks and how customers recognize your brand.
+  </p>
+
+  <form
+    action="/dashboard/store/customize"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+
+    <!-- Store Logo Upload -->
+    <div class="form-group" style="margin-bottom:16px;">
+      <label><strong>Store Logo</strong></label>
+      <p class="muted" style="margin:4px 0 8px;">
+        Upload your brand logo (PNG, JPG, SVG recommended)
+      </p>
+      <input
+        type="file"
+        name="logo"
+        accept="image/*"
+      />
+    </div>
+
+    <!-- Contact Address -->
+    <div class="form-group" style="margin-bottom:16px;">
+      <label><strong>Contact Address</strong></label>
+      <input
+        type="text"
+        name="address"
+        placeholder="e.g. 12 Adeola Odeku Street, Victoria Island, Lagos"
+        style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;"
+      />
+    </div>
+
+    <!-- Primary Color -->
+    <div class="form-group" style="margin-bottom:16px;">
+      <label><strong>Primary Color</strong></label>
+      <input
+        type="color"
+        name="primaryColor"
+        style="width:100%; height:42px; border-radius:8px; border:1px solid #ddd;"
+      />
+      <small class="muted">
+        Used for main buttons, highlights, links, and important actions.
+      </small>
+    </div>
+
+    <!-- Secondary Color -->
+    <div class="form-group" style="margin-bottom:16px;">
+      <label><strong>Secondary Color</strong></label>
+      <input
+        type="color"
+        name="secondaryColor"
+        style="width:100%; height:42px; border-radius:8px; border:1px solid #ddd;"
+      />
+      <small class="muted">
+        Used for backgrounds, accents, borders, and subtle UI elements.
+      </small>
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <button type="submit" class="btn primary">
+        Save Customization
+      </button>
+      <button type="reset" class="btn outline">
+        Reset
+      </button>
+    </div>
+
+  </form>
+</div>
+
+</section>

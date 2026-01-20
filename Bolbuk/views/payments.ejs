@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="keywords" content="Bolbook foods limited">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BOLBUK Foods limited.</title>
+    <link rel="icon" href="/img/logi.png" type="image">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    
+
+    <!-- Humberger Begin -->
+    <div class="humberger__menu__overlay"></div>
+    <div class="humberger__menu__wrapper">
+        <div class="humberger__menu__logo">
+            <a href="#"><img height="50px" src="/img/log.png"></a>
+        </div>
+        
+        <% if (!session.cart) { %>
+            <div class="humberger__menu__cart">
+                <ul>
+                   
+                    <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                </ul>
+                <div class="header__cart__price">item: <span></span></div>
+            </div>
+            <%} else { %>
+                <div class="humberger__menu__cart">
+                    <ul>
+                        
+                        <li style="list-style:none"><a href="#"><i class="fa fa-shopping-bag"></i> <span><%=session.cart.totalQty%></span></a></li>
+                    </ul>
+                    <div class="header__cart__price">item: <span></span></div>
+                </div>
+        <% } %>
+        <div class="humberger__menu__widget">
+            <div class="header__top__right__language">
+                <img height="25px" src="/img/ukflag.png" alt="">
+                <div>English</div>
+                <span class="arrow_carrot-down"></span>
+                <ul>
+                    <li><a href="#">Spanis</a></li>
+                    <li><a href="#">English</a></li>
+                </ul>
+            </div>
+            <div class="header__top__right__auth">
+                <a href="#"><i class="fa fa-user"></i> Login</a>
+            </div>
+        </div>
+        <nav class="humberger__menu__nav mobile-menu">
+            <ul>
+                <li class="active"><a href="/">Home</a></li>
+               
+                
+             
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+        <div class="header__top__right__social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
+            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+        </div>
+        <div class="humberger__menu__contact">
+            <ul>
+                <li><i class="fa fa-envelope"></i> info@bolbukfoods.com</li>
+                <li>Discount Up To 10% for New Customers</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Humberger End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i>info@bolbukfoods.com</li>
+                                <li>Discount Up To 10% for New Customers</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                            </div>
+                            <div class="header__top__right__language">
+                                <img height="25px" src="/img/ukflag.png" alt="">
+                                <div>English</div>
+                                <span class="arrow_carrot-down"></span>
+                                <ul>
+                                    <li><a href="#">Spanish</a></li>
+                                    <li><a href="#">English</a></li>
+                                </ul>
+                            </div>
+                            <div class="header__top__right__auth">
+                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="/"><img height="60px" src="/img/bolbuklogo.jpeg"></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="/">Home</a></li>
+                            <li><a href="/About">About</a></li>
+                            <li><a href="#">Pages</a>
+                                <ul class="header__menu__dropdown">
+                                   
+                                    <li><a href="about">About</a></li>
+                                    <li><a href="/contact">Contact</a></li>
+                                   
+                                </ul>
+                            </li>
+                           
+                            <li><a href="/contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <% if (!session.cart) { %>
+                        <div class="header__cart">
+                        
+                            <ul>
+                                <li><a href="#"><i class="fa fa-heart"></i> <span></span></a></li>
+                                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span></span></a></li>
+                            </ul>
+                            <div class="header__cart__price">item: <span></span></div>
+                        </div>
+                        <%} else { %>
+                            <div class="humberger__menu__cart">
+                                <ul>
+                                  
+                                    
+                                      <li style="list-style:none"><a href="/products/cart"><i class="fa fa-shopping-bag"></i> <span><%=session.cart.totalQty%></span></a></li>
+                                     
+
+                                </ul>
+                                <div class="header__cart__price">item: <span></span></div>
+                            </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+  
+
+
+
+  <!-- Payment Section -->
+  <!-- Breadcrumb Section Begin -->
+ 
+
+    <div class="card-body">
+      <div class="row">
+        <!-- Payment Form -->
+        <div class="col-md-7">
+          <div class="left border p-4">
+            <div class="row mb-3">
+              <span class="header"></span>
+              <div class="icons ms-auto">
+                <img src="https://img.icons8.com/color/48/000000/visa.png" />
+                <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
+                <img src="https://img.icons8.com/color/48/000000/maestro.png" />
+              </div>
+            </div>
+
+            <form action="/products/charge" method="post" id="payment-form">
+              <div class="form-row mb-3">
+                <label for="card-element">Credit or debit card</label>
+                <div id="card-element" class="my-2"></div>
+                <div id="card-errors" role="alert" class="text-danger"></div>
+              </div>
+
+              <div class="form-group">
+                <label>Shipping Address:</label>
+                <input placeholder="Enter Your Address" name="address" required>
+                <input type="hidden" value="<%= totalPrice %>" name="amount">
+              </div>
+
+            <button id="submit-btn" class="btn btn-primary">Submit Payment</button>
+
+            </form>
+          </div>
+        </div>
+
+       <!-- Order Summary -->
+<div class="col-md-5">
+  <div class="right border p-4">
+    <div class="header mb-3">Order Summary</div>
+
+    <% if (products.length > 0) { %>
+      <% products.forEach(function(product){ %>
+        <div class="row item mb-3">
+          <div class="col-4 align-self-center">
+            <img class="img-fluid rounded" 
+                 src="<%= product.item.image %>" 
+                 alt="<%= product.item.name %>">
+          </div>
+          <div class="col-8">
+            <div class="row"><b>£<%= product.item.price.toFixed(2) %></b></div>
+            <div class="row text-muted"><%= product.item.name %></div>
+            <div class="row">Qty: <%= product.qty %></div>
+          </div>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No items in your cart.</p>
+    <% } %>
+
+    <hr>
+    <div class="row lower">
+      <div class="col text-left">Subtotal</div>
+      <div class="col text-right">£<%= totalPrice.toFixed(2) %></div>
+    </div>
+    <div class="row lower">
+      <div class="col text-left">Delivery</div>
+      <div class="col text-right">Free</div>
+    </div>
+    <div class="row lower">
+      <div class="col text-left"><b>Total to pay</b></div>
+      <div class="col text-right"><b>£<%= totalPrice.toFixed(2) %></b></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+  <!-- Js Plugins -->
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.nice-select.min.js"></script>
+  <script src="/js/jquery-ui.min.js"></script>
+  <script src="/js/jquery.slicknav.js"></script>
+  <script src="/js/mixitup.min.js"></script>
+  <script src="/js/owl.carousel.min.js"></script>
+  <script src="/js/main.js"></script>
+
+ <style>
+  /* Card container */
+  #card-element {
+    width: 100%;
+    min-width: 280px;
+    max-width: 500px;
+    height: 45px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+  }
+
+  /* Focus effect */
+  #card-element.StripeElement--focus {
+    border-color: #FE9801; /* orange highlight */
+    box-shadow: 0 0 6px rgba(254, 152, 1, 0.4);
+  }
+
+  /* Layout helpers */
+  #payment-form {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  #card-errors {
+    margin-top: 10px;
+    color: #fa755a;
+    font-size: 14px;
+  }
+</style>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  const stripe = Stripe('pk_live_51P8IdV00gH7PcBWdmZmzWNWJNLM7SbYfQAmjtZTvrcEfqNfND15VQIXLkHjo6DiZseOlp8SVda4G2xM1migII5zO00aImL2DVw');
+  const elements = stripe.elements();
+
+  // 💅 Custom styles for the card input
+  const style = {
+    base: {
+      color: '#32325d',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '16px',
+      '::placeholder': { color: '#a0aec0' },
+    },
+    invalid: { color: '#fa755a' }
+  };
+
+  const card = elements.create('card', { style });
+  card.mount('#card-element');
+
+  // Handle real-time validation errors
+  card.on('change', event => {
+    const displayError = document.getElementById('card-errors');
+    displayError.textContent = event.error ? event.error.message : '';
+  });
+
+  const form = document.getElementById('payment-form');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing...';
+
+    const { token, error } = await stripe.createToken(card);
+
+    if (error) {
+      document.getElementById('card-errors').textContent = error.message;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Pay Now';
+    } else {
+      // Append the token to the form and submit to backend
+      const hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'token');
+      hiddenInput.setAttribute('value', token.id);
+      form.appendChild(hiddenInput);
+
+      form.submit();
+    }
+  });
+</script>
+
+</body>
+</html>
