@@ -2,9 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 
-//const appA = require('./Bolbuk/index');
+const appA = require('./Bolbuk/index');
 const appB = require('./Multitenant-app/index');
-//onst appC = require('./Adbeconhope1/index');
+const appC = require('./Adbeconhope1/index');
 
 
 
@@ -19,19 +19,19 @@ server.set('trust proxy', true);
 // ============================
 const domainMap = {
   // 🔹 Production domains
-  //'www.bolbukfoods.com': appA,
-  //'bolbuk.com': appA,
+  'www.bolbukfoods.com': appA,
+  'bolbuk.com': appA,
 
   'www.easyhostnet.com': appB,
   'easyhostnet.com': appB,
 
-  //'www.adedoyinbeaconofhopefoundation.com.ng': appC,
-  //'adedoyinbeaconofhopefoundation.com.ng': appC,
+  'www.adedoyinbeaconofhopefoundation.com.ng': appC,
+  'adedoyinbeaconofhopefoundation.com.ng': appC,
 
   // 🔹 Localhost aliases
-  //'bolbuk.localhost': appA,
+  'bolbuk.localhost': appA,
   'easyhostnet.localhost': appB,
-  //'adedoyin.localhost': appC,
+  'adedoyin.localhost': appC,
 
   // 🔹 Default localhost fallback
   'localhost': appB,

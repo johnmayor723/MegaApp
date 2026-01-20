@@ -42,7 +42,7 @@ const PORT = process.env.PORT || 3060;
 //const DBURL =  'mongodb+srv://fooddeck3:majoje1582@cluster0.smhy0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const DB = 'mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority'
 mongoose.connect(DB)
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("Easyhostbet Multitenant DB connected"))
   .catch(err => console.log("Mongoose connection error:", err));              
  // process.env.DBURL ||
 

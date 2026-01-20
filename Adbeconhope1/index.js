@@ -15,15 +15,32 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layout');
 
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static('uploads'));
-
 
 // DB connection
-const MONGODB_URI = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority";
-const SESSION_SECRET = process.env.SESSION_SECRET || 'change_this_secret';
+const DB = 'mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority'
+mongoose.connect(DB)
+  .then(() => console.log("Adebeconhope DB connected"))
+  .catch(err => console.log("Mongoose connection error:", err));              
+ // process.env.DBURL ||
 
+
+
+
+
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static('uploads'))
+
+
+// ===== Sessions =====
+app.use(
+  session({
+    secret: "mysupersecret",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: DB }),
+  })
+);
 
 
 
@@ -35,25 +52,8 @@ app.use(express.urlencoded({ extended: true }));
 // Sessions
 app.use(methodOverride('_method'));
 
-const sessionStore = MongoStore.create({
-    mongoUrl: MONGODB_URI,
-    collectionName: 'sessions',
-    ttl: 14 * 24 * 60 * 60, // 14 days
-});
 
-app.use(
-    session({
-        secret: SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        store: sessionStore,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24,
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-        },
-    })
-);
+
 
 // Routers
 const indexRouter = require("./routes/index");

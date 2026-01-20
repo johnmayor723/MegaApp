@@ -11,10 +11,12 @@ const { resolve } = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const DBURL = process.env.DB_URL;
-const MONGO_URL = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority"
 
-
+const DB = 'mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority'
+mongoose.connect(DB)
+  .then(() => console.log("BolbukDB connected"))
+  .catch(err => console.log("Mongoose connection error:", err));              
+ // process.env.DBURL ||
 
 // ============================
 // ⚙️ View Engine (EJS)
@@ -41,12 +43,14 @@ app.use(methodOverride('_method'));
 // ============================
 // 💾 Session setup
 // ============================
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'mysupersecret',
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: DBURL })
-}));
+app.use(
+  session({
+    secret: "mysupersecret",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: DB }),
+  })
+);
 
 // Make session data available in all EJS templates
 app.use((req, res, next) => {
