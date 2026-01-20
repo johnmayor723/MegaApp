@@ -20,7 +20,7 @@ server.set('trust proxy', true);
 const domainMap = {
   // 🔹 Production domains
   'www.bolbukfoods.com': appA,
-  'bolbuk.com': appA,
+  'bolbukfoods.com': appA,
 
   'www.easyhostnet.com': appB,
   'easyhostnet.com': appB,
