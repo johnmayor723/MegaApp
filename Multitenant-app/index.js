@@ -39,9 +39,9 @@ const tenantResolver = require("./api/middleware/tenantResolver");
 
 // ===== App Variables =====
 const PORT = process.env.PORT || 3060;
-const DBURL =  'mongodb://localhost:27017/m';
+const DBURL =  'mongodb+srv://fooddeck3:majoje1582@cluster0.smhy0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
  // process.env.DBURL ||
- // "mongodb+srv://fooddeck3:majoje1582@cluster0.smhy0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
 
 // ===== Connect Database =====
 connectDB();
