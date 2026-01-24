@@ -132,6 +132,92 @@ tbody tr:hover {
 }
 
 </style>
+<style>
+/* ---- Menu empty state + form (isolated) ---- */
+
+.menu-empty {
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  margin-top: 16px;
+  background: #fafafa;
+}
+
+.menu-empty h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.menu-empty p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.create-menu-btn {
+  background: #111827;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu-form-wrapper {
+  margin-top: 20px;
+  display: none;
+}
+
+.menu-form {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  background: #fff;
+}
+
+.menu-form h3 {
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.menu-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.menu-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.menu-form label {
+  font-size: 13px;
+  color: #374151;
+}
+
+.menu-form input,
+.menu-form textarea,
+.menu-form select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.menu-form textarea {
+  resize: vertical;
+}
+
+.menu-form .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+</style>
 
 
 <div class="page">
@@ -148,76 +234,161 @@ tbody tr:hover {
   <!-- Card -->
   <div class="card">
 
-    <!-- Toolbar -->
-    <div class="toolbar">
-      <div class="search">
-        🔍
-        <input type="text" placeholder="Search by name, description, image_url" />
-        <span class="info">ⓘ</span>
+    <% if (menu === null) { %>
+
+      <!-- EMPTY STATE -->
+      <div class="menu-empty">
+        <h3>No menu created yet</h3>
+        <p>Your restaurant doesn’t have any menu items.</p>
+
+        <button class="create-menu-btn" onclick="toggleMenuForm()">
+          Create a menu
+        </button>
       </div>
 
-      <button class="filter-btn">⏷ Filters</button>
-    </div>
+    <% } else { %>
 
-    <!-- Table -->
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>name</th>
-            <th>description</th>
-            <th>price</th>
-            <th>category</th>
-            <th>image_url</th>
-            <th>is_vegetarian</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Wagyu Beef Tartare</td>
-            <td>Hand-cut A5 wagyu ...</td>
-            <td>42</td>
-            <td>appetizers</td>
-            <td>https://images.unspl...</td>
-            <td>false</td>
-          </tr>
-          <tr>
-            <td>Burrata Caprese</td>
-            <td>Fresh burrata, heirlo...</td>
-            <td>24</td>
-            <td>appetizers</td>
-            <td>https://images.unspl...</td>
-            <td>true</td>
-          </tr>
-          <tr>
-            <td>Seared Foie Gras</td>
-            <td>Pan-seared foie gras ...</td>
-            <td>38</td>
-            <td>appetizers</td>
-            <td>https://images.unspl...</td>
-            <td>false</td>
-          </tr>
-          <tr>
-            <td>Lobster Thermidor</td>
-            <td>Maine lobster, cogna...</td>
-            <td>68</td>
-            <td>mains</td>
-            <td>https://images.unspl...</td>
-            <td>false</td>
-          </tr>
-          <tr>
-            <td>Filet Mignon</td>
-            <td>Prime beef tenderloi...</td>
-            <td>62</td>
-            <td>mains</td>
-            <td>https://images.unspl...</td>
-            <td>false</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search">
+          🔍
+          <input type="text" placeholder="Search by name, description, image_url" />
+          <span class="info">ⓘ</span>
+        </div>
+
+        <button class="filter-btn">⏷ Filters</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>description</th>
+              <th>price</th>
+              <th>category</th>
+              <th>image_url</th>
+              <th>is_vegetarian</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- STATIC CONTENT (kept exactly as requested) -->
+            <tr>
+              <td>Wagyu Beef Tartare</td>
+              <td>Hand-cut A5 wagyu ...</td>
+              <td>42</td>
+              <td>appetizers</td>
+              <td>https://images.unspl...</td>
+              <td>false</td>
+            </tr>
+            <tr>
+              <td>Burrata Caprese</td>
+              <td>Fresh burrata, heirlo...</td>
+              <td>24</td>
+              <td>appetizers</td>
+              <td>https://images.unspl...</td>
+              <td>true</td>
+            </tr>
+            <tr>
+              <td>Seared Foie Gras</td>
+              <td>Pan-seared foie gras ...</td>
+              <td>38</td>
+              <td>appetizers</td>
+              <td>https://images.unspl...</td>
+              <td>false</td>
+            </tr>
+            <tr>
+              <td>Lobster Thermidor</td>
+              <td>Maine lobster, cogna...</td>
+              <td>68</td>
+              <td>mains</td>
+              <td>https://images.unspl...</td>
+              <td>false</td>
+            </tr>
+            <tr>
+              <td>Filet Mignon</td>
+              <td>Prime beef tenderloi...</td>
+              <td>62</td>
+              <td>mains</td>
+              <td>https://images.unspl...</td>
+              <td>false</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    <% } %>
+    <div class="menu-form-wrapper" id="menuForm">
+  <div class="menu-form">
+
+    <h3>Create Menu Item</h3>
+
+    <form method="POST" action="/menus/create" enctype="multipart/form-data">
+
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="3" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" name="category" required />
+        </div>
+
+        <div class="form-group">
+          <label>Price</label>
+          <input type="number" name="price" step="0.01" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Available</label>
+          <select name="available">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Image</label>
+          <input type="file" name="image" accept="image/*" />
+        </div>
+      </div>
+
+      <!-- tenantId hidden -->
+      <input type="hidden" name="tenantId" value="<%= tenant.tenantId %>" />
+
+      <div class="actions">
+        <button type="button" class="icon-btn" onclick="toggleMenuForm()">
+          Cancel
+        </button>
+        <button type="submit" class="add-btn">
+          Save Menu
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
 
   </div>
 </div>
 
 
+
+<script>
+  function toggleMenuForm() {
+    const form = document.getElementById("menuForm");
+    form.style.display = form.style.display === "block" ? "none" : "block";
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+</script>

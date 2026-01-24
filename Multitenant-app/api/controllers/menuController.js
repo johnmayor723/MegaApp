@@ -25,18 +25,51 @@ exports.createMenu = async (req, res) => {
 
 // GET ALL MENUS (optionally filter by tenantId)
 exports.allMenu = async (req, res) => {
-    try {
-        const tenantId = req.query.tenantId || req.params.tenantId;
-        const filter = {};
-        if (tenantId) filter.tenantId = tenantId;
+  try {
+    // Fetch all menus
+    const menus = await Menu.find().sort({ name: 1 });
 
-        const menus = await Menu.find(filter).sort({ name: 1 });
+    res.json({
+      success: true,
+      menus,
+    });
+  } catch (error) {
+    console.error("Server error fetching menus:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
 
-        res.json({ success: true, menus });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: 'Server Error' });
+// based on tenantId query param
+exports.allMenuByTenant = async (req, res) => {
+  try {
+    const { tenantId } = req.body;
+
+    // Build filter
+    const filter = {};
+    if (tenantId) filter.tenantId = tenantId;
+
+    // Fetch menus from DB
+    const menus = await Menu.find(filter).sort({ name: 1 });
+
+    // If tenantId provided but no menus found
+    if (tenantId && menus.length === 0) {
+      return res.json({
+        success: true,
+        menus: null,
+        message: "No menus found for this tenant.",
+      });
     }
+
+    // Return menus normally
+    res.json({ success: true, menus });
+
+  } catch (error) {
+    console.error("Unexpected server error:", error);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
 };
 
 // UPDATE MENU

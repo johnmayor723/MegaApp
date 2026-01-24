@@ -13,4 +13,4 @@ const reservationSchema = new mongoose.Schema({
   confirmed: { type: Boolean, default: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Reservation', reservationSchema);
+module.exports = mongoose.model('Reservations', reservationSchema);

@@ -36,12 +36,102 @@ const upload = multer({
 
 
 
-
-
-
 router.get("/", (req, res) => {
     res.render("multitenant/index", { layout: false });
 });
+
+router.get("/multitenant/:tenantId/:slug", async (req, res) => {
+  const { tenantId, slug } = req.params;
+
+  try {
+    /* -------------------------
+       1. Resolve tenant
+    -------------------------- */
+    const tenantResponse = await axios.post(
+      "http://localhost:3060/api/tenant-auth/get-one-tenant",
+      { tenantId }
+    );
+
+    const tenant = tenantResponse.data?.tenant;
+    console.log("Resolved tenant:", tenant);
+    if (!tenant) {
+      return res.status(404).render("errors/404");
+    }
+
+    // Optional but recommended
+    if (tenant.slug !== slug) {
+      return res.status(404).render("errors/404");
+    }
+
+    /* -------------------------
+       2. Restaurant
+    -------------------------- */
+   if (tenant.type === "restaurant") {
+  let menu = null;
+
+  try {
+    const response = await axios.post(
+      "http://easyhostnet.localhost:3060/api/menus/menus-by-tenant",
+      { tenantId }
+    );
+
+    const allMenus = response.data?.menus || [];
+    const tenantMenus = allMenus.filter(m => m.tenantId === tenantId);
+
+    menu = tenantMenus.length ? tenantMenus : null;
+
+  } catch (err) {
+    menu = null;
+  }
+
+  return res.render("multitenant/restaurant/home", {
+    tenant,
+    menu: menu ?? null, // 👈 GUARANTEED
+  });
+}
+
+
+    /* -------------------------
+       3. Ecommerce
+    -------------------------- */
+    if (tenant.type === "ecommerce") {
+      let products = null;
+
+      try {
+        const productRes = await axios.get(
+          "http://localhost:3060/api/multitenant/products"
+        );
+
+        const allProducts = productRes.data?.products || [];
+
+        const tenantProducts = allProducts.filter(
+          p => p.tenantId === tenantId
+        );
+
+        products = tenantProducts.length ? tenantProducts : null;
+
+      } catch (err) {
+        products = null;
+      }
+
+      return res.render("multitenant/shop/home", {
+        tenant,
+        products,
+      });
+    }
+
+    return res.status(400).render("errors/unsupported-business");
+
+  } catch (err) {
+    console.error("Tenant resolver error:", err.message);
+    return res.status(500).render("errors/500");
+  }
+});
+
+
+
+
+
 router.get("/adbeaconhope", (req, res) => {
   res.render("multitenant/adbeaconhope-signin", { layout: false });
 });
@@ -369,7 +459,7 @@ router.post("/update-branding", upload.single("logo"), async (req, res) => {
   }
 });
 
-module.exports = router;
+//module.exports = router;
 
 
 // Handle email + password sign-in

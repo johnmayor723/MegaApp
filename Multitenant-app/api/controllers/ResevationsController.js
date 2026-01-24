@@ -9,7 +9,7 @@ exports.createReservation = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Tenant ID is required' });
     }
 
-    const reservation = await Reservation.create({
+    const reservation = await Reservations.create({
       tenantId,
       customerName,
       phone,
@@ -30,7 +30,7 @@ exports.createReservation = async (req, res) => {
 // ------------------- GET ALL RESERVATIONS -------------------
 exports.getAllReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find().sort({ date: -1, time: 1 });
+    const reservations = await Reservations.find().sort({ date: -1, time: 1 });
 
     res.status(200).json({
       success: true,
@@ -53,7 +53,7 @@ exports.getReservationsByTenant = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Tenant ID is required' });
     }
 
-    const reservations = await Reservation.find({ tenantId }).sort({ date: 1, time: 1 });
+    const reservations = await Reservations.find({ tenantId }).sort({ date: 1, time: 1 });
 
     res.json({ success: true, reservations });
   } catch (error) {
@@ -67,7 +67,7 @@ exports.getReservation = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const reservation = await Reservation.findById(id);
+    const reservation = await Reservations.findById(id);
 
     if (!reservation) {
       return res.status(404).json({ success: false, message: 'Reservation not found' });
@@ -97,7 +97,7 @@ exports.updateReservation = async (req, res) => {
       confirmed: confirmed === true || confirmed === 'on' || false,
     };
 
-    const updatedReservation = await Reservation.findByIdAndUpdate(id, updateData, {
+    const updatedReservation = await Reservations.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });
@@ -118,7 +118,7 @@ exports.deleteReservation = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const reservation = await Reservation.findById(id);
+    const reservation = await Reservations.findById(id);
 
     if (!reservation) {
       return res.status(404).json({ success: false, message: 'Reservation not found' });

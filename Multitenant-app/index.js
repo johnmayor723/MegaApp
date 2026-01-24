@@ -143,7 +143,7 @@ app.get('/partials/:name', (req, res) => {
     'reservations',
     'tables',
     'overview',
-    'create-menu'
+    'createmenu'
   ];
 
   if (!allowed.includes(name)) {
