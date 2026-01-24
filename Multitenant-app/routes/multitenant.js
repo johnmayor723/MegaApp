@@ -71,27 +71,47 @@ router.get("/login", (req, res) => {
 });
 
 
-router.get("/verify-otp", (req, res) => {
-  const { email } = req.query;
+router.post("/verify-otp", async (req, res) => {
+  console.log("Received OTP verification request:", req.body);
+  try {
+    const { email, otp } = req.body;
 
-  res.render("multitenant/verify-otp", {
-    layout: false,
-    email,
-    message: res.locals.success_msg[0] || null,
-    error: res.locals.error_msg[0] || null,
-  });
+    const response = await axios.post(
+      "http://easyhostnet.localhost:3060/api/tenant-auth/verify-otp",
+      { email, otp }
+    );
+
+    // ✅ Persist verified email in session
+    req.session.email = email;
+
+    // ✅ USE CORRECT FLASH KEYS
+    req.flash(
+      "success_msg",
+      "OTP verified successfully. Please create your store."
+    );
+     console.log("Verified email saved in session:", req.session.email);
+     console.log("Redirecting to create-store...");
+    res.redirect("/multitenant/create-store");
+
+  } catch (err) {
+    console.error(err);
+
+    req.flash(
+      "error_msg",
+      err.response?.data?.error || "Error verifying OTP"
+    );
+
+    res.redirect("/multitenant/sign-up");
+  }
 });
-router.get("/create-store", (req, res) => {
-  res.render("multitenant/create-store", {
-    layout: false,
-    message: res.locals.success_msg[0] || null,
-    error: res.locals.error_msg[0] || null,
-  });
-});
+
+
+
 
 // POST request to send OTP
 // POST request to send OTP
 router.post("/request-otp", async (req, res) => {
+  console.log("Received OTP request for email:", req.body.email);
   try {
     const { email } = req.body;
 
@@ -166,7 +186,7 @@ router.post("/verify-otp", async (req, res) => {
   try {
     const {  otp } = req.body;
     const email = req.session.otpEmail;
-    const response = await axios.post("http:///easyhostnet.localhost:3060/api/tenant-auth/verify-otp", { email, otp });
+    const response = await axios.post("http://easyhostnet.localhost:3060/api/tenant-auth/verify-otp", { email, otp });
     console.log(response.data);
    req.flash("success_msg", response.data.message);
     res.redirect("/multitenant/create-store");
@@ -181,8 +201,19 @@ router.post("/verify-otp", async (req, res) => {
 });
 
 // create-store
-router.get("/multitenant/create-store", (req, res) => {
-  res.render("multitenant/create-store", { message: null, layout: false });
+// create-store
+router.get("/create-store", (req, res) => {
+  console.log("Accessing create-store route");
+  console.log("Email from session:", req.session.email);
+  if (!req.session.email) {
+
+    req.flash("error_msg", "Please verify your email first.");
+    return res.redirect("/multitenant/sign-up");
+  }
+   console.log("Email from session:", req.session.email);
+  res.render("multitenant/create-store", {
+    email: req.session.email
+  });
 });
 router.get("/multitenant/select-domain", (req, res) => {
   res.render("multitenant/select-domain", { message: null, layout: false });
@@ -197,7 +228,7 @@ router.get("/complete-signup", (req, res) => {
 router.post("/complete-signup", async (req, res) => {
   try {
     const { name, password, slug, domain, plan, type } = req.body;
-    const response = await axios.post("http:///easyhostnet.localhost:3060/api/tenant-auth/complete-signup",
+    const response = await axios.post("http://easyhostnet.localhost:3060/api/tenant-auth/complete-signup",
       payload = {
         name: name || slug,
         email: req.session.otpEmail,
@@ -220,7 +251,7 @@ router.post("/complete-signup", async (req, res) => {
 
     console.log('session user tenantId:', owner.tenantId);
 
-    res.render("multitenant/compareplans", {layout:false, message: response.data.message, data, email }); 
+    res.render("multitenant/compareplans", {layout:false, message: response.data.message, data, email:response.data.owner.email  }); 
   } catch (err) {
     console.log(err);
     res.render("signup/complete", { message: err.response?.data?.error || "Error completing signup" });

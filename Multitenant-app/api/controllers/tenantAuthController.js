@@ -10,47 +10,47 @@ const jwtSecret = process.env.JWT_SECRET || "supersecret";
 
 // 🔧 Mail transport (Zoho or replace with another SMTP)
 
-/*
-const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: "info@easyhostnet.com",
-    pass: process.env.ZOHO_APP_PASSWORD,
-  },
-  family: 4,
+
+var transport = nodemailer.createTransport({
+    host: "smtp.zeptomail.com",
+    port: 587,
+    auth: {
+    user: "emailapikey",
+    pass: "wSsVR610qxD5WKkpn2f/Lro7mFhTDlqiHE5/3FD3un6uTPHCpcdqwhbOVlKuHvAaGTVrEzUToLl/kUgIhzJdhtguzAxTXSiF9mqRe1U4J3x17qnvhDzKW2tdlRKAJYgBwgxsmWBkE8wm+g=="
+    }
 });
 
 // Verify SMTP connection
-transporter.verify((error, success) => {
+transport.verify((error, success) => {
   if (error) {
     console.error("❌ SMTP VERIFY FAILED:", error);
   } else {
     console.log("✅ SMTP READY");
   }
 });
-*/
 
+
+
+/*
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  host: 'smtp.gmail.com',a
   port: 465,
   secure: true,
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: 'modigitman@gmail.com',
+    pass: 'muwroruzgboqdfcd',
   }
 });
 
 transporter.verify((err, success) => {
   if (err) console.log("❌ SMTP VERIFY FAILED:", err);
   else console.log("✅ SMTP Verified: Ready to send emails");
-});
+});*/
 
 // ✉️ Utility: Send email
 const sendEmail = async (to, subject, text) => {
-  await transporter.sendMail({
-    from: `"EasyApps" <modigitman@gmail.com>`,
+  await transport.sendMail({
+    from: `"EasyApps" <info@easyhostnet.com>`,
     to,
     subject,
     text,
@@ -162,8 +162,16 @@ exports.completeSignup = async (req, res) => {
     }
 
     // Check if tenant slug or domain already exists
-    let existingTenant = await Tenant.findOne({ $or: [{ slug }, { domain }] });
-    console.log("🔍 Existing tenant check:", existingTenant ? existingTenant._id : "none");
+    const query = [{ slug }];
+
+    if (domain && domain.trim() !== "") {
+      query.push({ domain });
+    }
+
+    const existingTenant = await Tenant.findOne({
+      $or: query
+    });
+
 
     if (existingTenant) {
       return res.status(400).json({ error: "Tenant slug or domain already in use" });
@@ -378,8 +386,42 @@ exports.tenantLogin = async (req, res) => {
 };
 
 /**
- * 📌 Get tenant info
+ * 📌 Get tenants
  */
+
+exports.getAllTenants = async (req, res) => {
+  try {
+    const tenants = await Tenant.find();
+
+    res.json({
+      count: tenants.length,
+      tenants: tenants.map((tenant) => ({
+        tenantId: tenant.tenantId,
+        name: tenant.name,
+        slug: tenant.slug,
+        domain: tenant.domain,
+        url: tenant.url,
+        plan: tenant.plan,
+        type: tenant.type,
+        owner: tenant.owner,
+        status: tenant.status,
+        branding: {
+          logo: tenant.logo || null,
+          primaryColor: tenant.primaryColor || "#2563eb",
+          secondaryColor: tenant.secondaryColor || "#111827",
+          contactColor: tenant.contactColor || "#10b981",
+        },
+        contact: {
+          email: tenant.email || "",
+          phone: tenant.phone || "",
+        },
+      })),
+    });
+  } catch (err) {
+    console.error("Get all tenants error:", err);
+    res.status(500).json({ error: "Server error fetching tenants" });
+  }
+};
 
 
 /**
@@ -388,20 +430,16 @@ exports.tenantLogin = async (req, res) => {
  */
 exports.getTenant = async (req, res) => {
   try {
-    const { idOrSlug } = req.params;
+    const { tenantId } = req.body;
 
     let tenant;
 
     // First try by tenantId (custom unique string)
-    tenant = await Tenant.findOne({ tenantId: idOrSlug });
+    tenant = await Tenant.findOne({ tenantId });
 
-    // If not found, try by slug
+ 
     if (!tenant) {
-      tenant = await Tenant.findOne({ slug: idOrSlug });
-    }
-
-    if (!tenant) {
-      return res.status(404).json({ error: "Tenant not found" });
+      return res.status(404).json({ error: "Tenant not found"});
     }
 
     // Return tenant as JSON

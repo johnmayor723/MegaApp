@@ -22,7 +22,9 @@ router.post('/complete-signup', TenantAuthController.completeSignup);
 router.post('/select-plan', TenantAuthController.selectPlan);
 router.post('/update-branding', TenantAuthController.updateTenantBranding);
 
+// get all tenants
+router.get("/get-all-tenants", TenantAuthController.getAllTenants);
 // 📌 Get tenant info
-router.get("/:idOrSlug", TenantAuthController.getTenant);
+router.post("/get-one-tenant", TenantAuthController.getTenant);
 
 module.exports = router;

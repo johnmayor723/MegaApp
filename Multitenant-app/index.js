@@ -40,15 +40,12 @@ const tenantResolver = require("./api/middleware/tenantResolver");
 // ===== App Variables =====
 const PORT = process.env.PORT || 3060;
 //const DBURL =  'mongodb+srv://fooddeck3:majoje1582@cluster0.smhy0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const DB = 'mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority'
-mongoose.connect(DB)
-  .then(() => console.log("Easyhostbet Multitenant DB connected"))
-  .catch(err => console.log("Mongoose connection error:", err));              
- // process.env.DBURL ||
-
+//const DB = 'mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority'
+// Local MongoDB connection (fallback to env var DBURL)
+const DB =  'mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority';
 
 // ===== Connect Database =====
-//connectDB();
+connectDB();
 
 // ===== View Engine Setup =====
 app.set("view engine", "ejs");
@@ -161,18 +158,6 @@ app.get('/partials/:name', (req, res) => {
 
 // nrewsddddd
 
-// ===== API Routes =====
-app.use("/api/products", tenantResolver, productRoutes);
-app.use("/api/orders", tenantResolver, orderRoutes);
-app.use("/api/carts", tenantResolver, cartRoutes);
-app.use("/api/categories", tenantResolver, categoryRoutes);
-app.use("/api/blogs", tenantResolver, blogRoutes);
-app.use("/api/comments", tenantResolver, commentRoutes);
-app.use("/api/tenant-auth", tenantAuthRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/menus", tenantResolver, menuRoutes);
-app.use("/api/reservations", tenantResolver, reservationRoutes);
-
 // ===== Client Routes =====
 // Expose only the homepage at "/"
 app.get("/", (req, res, next) => {
@@ -191,5 +176,19 @@ app.use("/restaurants", clientRestaurantRouter);
 app.get("/", (req, res) => {
   res.send("🚀 Multitenant Server running successfully!");
 });
+
+// ===== API Routes =====
+app.use("/api/products", tenantResolver, productRoutes);
+app.use("/api/orders", tenantResolver, orderRoutes);
+app.use("/api/carts", tenantResolver, cartRoutes);
+app.use("/api/categories", tenantResolver, categoryRoutes);
+app.use("/api/blogs", tenantResolver, blogRoutes);
+app.use("/api/comments", tenantResolver, commentRoutes);
+app.use("/api/tenant-auth", tenantAuthRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/menus", tenantResolver, menuRoutes);
+app.use("/api/reservations", tenantResolver, reservationRoutes);
+
+
 
 module.exports = app

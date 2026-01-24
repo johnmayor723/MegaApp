@@ -21,8 +21,9 @@
 }
 
 .app-logo {
-  width: 64px;
+  width: auto;
   height: 64px;
+  padding: 12px;
   background: #fff;
   border-radius: 12px;
   display: flex;
@@ -162,8 +163,8 @@
     
 </style>
 <%
-  const appSlug = session?.slug || 'Your App';
-  const appUrl  = session?.url || '#';
+  const appSlug = session?.tenant.slug || 'Your App';
+  const appUrl  = session?.user.url || '#';
 %>
 
 <section class="app-overview">
@@ -172,19 +173,19 @@
   <div class="app-header">
     <div class="app-info">
       <div class="app-logo">
-        <span>Ecommerce</span>
+        <span style="font-weight: bolder;font-size: x-large;"><%=appSlug%></span>
       </div>
 
       <div class="app-text">
        <h2>
-  <%= appSlug %>
+  
   <span class="edit-icon">✎</span>
 </h2>
 
 <p>
   Store URL:
-  <a href="<%= appUrl %>" target="_blank" style="color:#2563eb; text-decoration:none;">
-    <%= appUrl %>
+  <a style="color:#1b2026; text-decoration:none;" href="<%= appUrl %>" target="_blank">
+       Your store url
   </a>
 </p>
 
@@ -194,8 +195,8 @@
     </div>
 
     <div class="app-actions">
-      <button class="btn secondary">Open App</button>
-      <button class="btn outline">Share App <small>win free credits!</small></button>
+      <a style="color:#f4f6f9; text-decoration:none;" href="<%= appUrl %>" class="btn secondary">Open App</a>
+      <a style="color:#1b1b1c; text-decoration:none;" href="#" class="btn outline">Share App <small>win free credits!</small></a>
     </div>
   </div>
 
