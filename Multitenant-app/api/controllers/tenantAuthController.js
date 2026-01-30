@@ -10,8 +10,8 @@ const jwtSecret = process.env.JWT_SECRET || "supersecret";
 
 // 🔧 Mail transport (Zoho or replace with another SMTP)
 
-
-var transport = nodemailer.createTransport({
+/*
+var transporter = nodemailer.createTransport({
     host: "smtp.zeptomail.com",
     port: 587,
     auth: {
@@ -21,19 +21,19 @@ var transport = nodemailer.createTransport({
 });
 
 // Verify SMTP connection
-transport.verify((error, success) => {
+transporter.verify((error, success) => {
   if (error) {
     console.error("❌ SMTP VERIFY FAILED:", error);
   } else {
     console.log("✅ SMTP READY");
   }
-});
+});*/
 
 
 
-/*
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',a
+
+const transport = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
   port: 465,
   secure: true,
   auth: {
@@ -42,15 +42,15 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-transporter.verify((err, success) => {
+transport.verify((err, success) => {
   if (err) console.log("❌ SMTP VERIFY FAILED:", err);
   else console.log("✅ SMTP Verified: Ready to send emails");
-});*/
+});
 
 // ✉️ Utility: Send email
 const sendEmail = async (to, subject, text) => {
   await transport.sendMail({
-    from: `"EasyApps" <info@easyhostnet.com>`,
+    from: `"EasyApps" <modigitman@gmail.com>`,
     to,
     subject,
     text,
@@ -230,7 +230,7 @@ exports.completeSignup = async (req, res) => {
 
     res.status(201).json({
       message: "Tenant created successfully",
-      tenant: { id: tenant._id, slug: tenant.slug, domain: tenant.domain, tenantId: tenant.tenantId, url: tenant.url },
+      tenant: { id: tenant._id, slug: tenant.slug, domain: tenant.domain, plan: tenant.plan, tenantId: tenant.tenantId, url: tenant.url },
       owner: { id: user._id, email: user.email, tenantId: user.tenantId , url: user.url },
       type: tenant.type,
     });
@@ -566,3 +566,50 @@ exports.selectPlan = async (req, res) => {
   }
 };
 
+exports.updateTenantDomain = async (req, res) => {
+  try {
+    const { email, domain } = req.body;
+
+    if (!email || !domain) {
+      return res.status(400).json({ error: "Email and domain are required" });
+    }
+
+    const normalizedDomain = domain.trim().toLowerCase();
+
+    // Find the tenant using email
+    const tenant = await Tenant.findOne({ "owner.email": email });
+    if (!tenant) {
+      return res.status(404).json({ error: "Tenant not found for this email" });
+    }
+
+    // Ensure domain is not already taken by another tenant
+    const domainTaken = await Tenant.findOne({
+      domain: normalizedDomain,
+      _id: { $ne: tenant._id },
+    });
+    if (domainTaken) {
+      return res.status(400).json({ error: "Domain already in use" });
+    }
+
+    // Update tenant domain and URL
+    tenant.domain = normalizedDomain;
+    tenant.url = `https://${normalizedDomain}`;
+
+    await tenant.save();
+
+    return res.status(200).json({
+      message: "Domain updated successfully",
+      tenant: {
+        tenantId: tenant.tenantId,
+        name: tenant.name,
+        slug: tenant.slug,
+        domain: tenant.domain,
+        url: tenant.url,
+        status: tenant.status,
+      },
+    });
+  } catch (err) {
+    console.error("Update domain error:", err);
+    return res.status(500).json({ error: "Server error while updating domain" });
+  }
+};

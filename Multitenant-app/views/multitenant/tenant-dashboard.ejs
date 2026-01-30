@@ -58,10 +58,25 @@
 
     </div>
 
-   
+    
   </div>
+  
 
   <script src="/multitenant/js/dashboard.js"></script>
+  <script>
+  function openMenuModal() {
+    const menu = document.getElementById("menuModal");
+
+    if (!menu) {
+      console.error("menuModal not found");
+      return;
+    }
+
+    menu.style.display =
+      menu.style.display === "block" ? "none" : "block";
+  }
+</script>
+
   
 </body>
 </html>

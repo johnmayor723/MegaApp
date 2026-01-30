@@ -5,7 +5,7 @@ const menuSchema = new mongoose.Schema({
   description: { type: String, required: true },
   category: { type: String, required: true },
   price: { type: Number, required: true },
-  available: { type: Boolean, default: true },
+  available: { type: Boolean },
   tenantId: {
     type: String,
     required: true,

@@ -129,6 +129,12 @@ router.get("/multitenant/:tenantId/:slug", async (req, res) => {
 });
 
 
+//subcription success page
+// routes/subscription.js
+
+router.get("/subscription-success", (req, res) => {
+  return res.render("subscription-success");
+});
 
 
 
@@ -361,7 +367,16 @@ router.post("/select-plan", async (req, res) => {
       });
 
       if (response.status === 200 || response.status === 201) {
-        return res.render("multitenant/tenant-dashboard", { data: response.data });
+        const tenantId = req.session.user.tenantId;
+        console.log("Tenant ID for menu fetch:", tenantId);
+        const menuresponse = await axios.post("http://easyhostnet.localhost:3060/api/menus/menus-by-tenant" , {
+          tenantId
+        });
+        const menu = menuresponse.data.menus || [];
+        req.session.menu = menu;
+        console.log("Menu after free plan selection:", menu);
+        return res.render("multitenant/tenant-dashboard",
+          { data: response.data, menu, user: req.session.user, layout: false });
       }
 
       return res.status(response.status).send("Free plan selection failed.");
@@ -386,7 +401,9 @@ router.post("/select-plan", async (req, res) => {
 router.get("/compare-plans", (req, res) => {
     res.render("multitenant/compareplans", { layout: false });
 })
-
+router.get("/new-compare-plans", (req, res) => {
+    res.render("multitenant/compare-plans", { layout: false });
+})
 
 router.get("/enroll", (req, res) => {
     res.render("multitenant/enroll", { layout: false });

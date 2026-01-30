@@ -58,21 +58,28 @@ router.post('/create-menu', upload.single('image'), async (req, res) => {
       description,
       category,
       price: parseFloat(price),
-      available: available === 'on' || available === true,
+      available,
       tenantId,
       image: imagePath,
     };
 
     // Axios POST to your API
-    const response = await axios.post('http://easyhostnet.localhost:3060/api/restaurant/create-menu', payload);
-
+    const response = await axios.post('http://easyhostnet.localhost:3060/api/menus/create-menu', payload);
+     console.log('API Response:', response.data);
     // Render dashboard with response data
-    res.render('menu-dashboard', { data: response.data });
+    const tenantMenus = await axios.post('http://easyhostnet.localhost:3060/api/menus/menus-by-tenant', { tenantId });
+  //const filteredMenus = response.data.filter(menu => menu.tenantId === tenantId);
+  //console.log('tenant menus:', tenantMenus.data);
+    const menuData = tenantMenus.data.menus;
+    req.session.menuData = menuData; // Store in session if needed
+    res.locals.menuData = menuData; // Store in res.locals if needed
+    res.render('multitenant/dashboard-menu', { menus: menuData }); // EJS dashboard template
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
   }
 });
+
 // ------------------- GET ALL MENUS -------------------
 router.get('/menus/:tenantId', async (req, res) => {
   try {

@@ -11,7 +11,7 @@ exports.createMenu = async (req, res) => {
 
       category,
       price,
-      available: available === 'on' || available === true,
+      available,
       image, // just store the image path/URL
       tenantId  
     });

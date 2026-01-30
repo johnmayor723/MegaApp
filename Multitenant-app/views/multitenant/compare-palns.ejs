@@ -115,30 +115,13 @@
 
   <div class="plans">
     <!-- Starter -->
-    <form action="/multitenant/select-plan" method="post" class="plan">
-      <h2>Starter</h2>
-      <div class="price">₦5,000 / month</div>
-      <p class="quarterly">Min. Quarterly Payment: $30</p>
-      <p>For small businesses</p>
-      <ul>
-        <li>Business website + customization</li>
-        <li>100 messaging credits</li>
-        <li>Unlimited sales & expenses record</li>
-        <li>Integrations: Shipbubble, Fez, Facebook Pixel</li>
-        <li>Unlimited invoices & receipts</li>
-        <li>Unlimited discounts & coupons</li>
-      </ul>
-      <input type="hidden" name="plan" value="free">
-      <input type="hidden" name="price" value="5000">
-      <input type="hidden" name="email" value="<%= email %>">
-      <button type="submit">Select Plan</button>
-    </form>
+   
 
     <!-- Pro -->
     <form action="/select-plan" method="post" class="plan">
       <h2>Pro</h2>
-      <div class="price">₦12,000 / month</div>
-      <p class="quarterly">Min. Quarterly Payment: $30</p>
+      <div class="price">₦5,000 / month</div>
+      <p class="quarterly">Min. Annual Payment: ₦60,0000</p>
       <p>For medium & large businesses</p>
       <ul>
         <li>Everything in Starter</li>
@@ -149,7 +132,7 @@
         <li>3 staff accounts</li>
         <li>Comprehensive business analytics</li>
       </ul>
-      <input type="hidden" name="plan" value="Pro">
+      <input type="hidden" name="plan" value="pro">
       <input type="hidden" name="price" value="12000">
       <input type="hidden" name="email" value="<%= email %>">
       <button type="submit">Select Plan</button>
@@ -171,10 +154,10 @@
         <li>Integrations: Shipbubble, Fez, Google Analytics, Facebook Pixel</li>
         <li>5 staff accounts</li>
       </ul>
-      <input type="hidden" name="plan" value="Growth">
+      <input type="hidden" name="plan" value="growth">
       <input type="hidden" name="price" value="25000">
       <input type="hidden" name="email" value="<%= email %>">
-     <button type="button" onclick="alert('Coming Soon!')">Coming Soon</button>
+      <button type="button" onclick="alert('Coming Soon!')">Coming Soon</button>
     </form>
 
     <!-- Bumpa -->
@@ -194,7 +177,7 @@
       <input type="hidden" name="plan" value="Bumpa">
       <input type="hidden" name="price" value="50000">
       <input type="hidden" name="email" value="<%= email %>">
-     <button type="button" onclick="alert('Coming Soon!')">Coming Soon</button>
+      <button type="button" onclick="alert('Coming Soon!')">Coming Soon</button>
     </form>
   </div>
 </body>

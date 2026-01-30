@@ -25,11 +25,11 @@ const menuRoutes = require("./api/routes/MenuRoute");
 const reservationRoutes = require("./api/routes/ReservationRoutes");
 
 // ===== Client-side Routes =====
-const clientIndexRouter = require("./routes/index");
-const clientCartRouter = require("./routes/cart");
-const clientPaymentRouter = require("./routes/payment");
-const clientOrderRouter = require("./routes/Order");
-const clientManagementRouter = require("./routes/management");
+//const clientIndexRouter = require("./routes/index");
+//const clientCartRouter = require("./routes/cart");
+//const clientPaymentRouter = require("./routes/payment");
+//const clientOrderRouter = require("./routes/Order");
+//const clientManagementRouter = require("./routes/management");
 const clientMultitenantRouter = require("./routes/multitenant");
 const clientRestaurantRouter = require("./routes/restaurant-management");
 
@@ -165,11 +165,11 @@ app.get("/", (req, res, next) => {
 });
 app.use("/", clientMultitenantRouter);
 app.use("/multitenant", clientMultitenantRouter);
-app.use("/index", clientIndexRouter);
-app.use("/cart", clientCartRouter);
-app.use("/payment", clientPaymentRouter);
-app.use("/orders", clientOrderRouter);
-app.use("/management", clientManagementRouter);
+//app.use("/index", clientIndexRouter);
+//app.use("/cart", clientCartRouter);
+//app.use("/payment", clientPaymentRouter);
+//app.use("/orders", clientOrderRouter);
+app.use("/restaurant-management", clientRestaurantRouter);
 app.use("/restaurants", clientRestaurantRouter);  
 
 // ===== Root Route =====
@@ -188,6 +188,7 @@ app.use("/api/tenant-auth", tenantAuthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/menus", tenantResolver, menuRoutes);
 app.use("/api/reservations", tenantResolver, reservationRoutes);
+
 
 
 

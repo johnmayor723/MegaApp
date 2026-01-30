@@ -21,6 +21,7 @@ router.post("/reset-password", TenantAuthController.resetPassword);
 router.post('/complete-signup', TenantAuthController.completeSignup);
 router.post('/select-plan', TenantAuthController.selectPlan);
 router.post('/update-branding', TenantAuthController.updateTenantBranding);
+router.post('/update-domain', TenantAuthController.updateTenantDomain);
 
 // get all tenants
 router.get("/get-all-tenants", TenantAuthController.getAllTenants);

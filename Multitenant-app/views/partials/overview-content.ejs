@@ -162,9 +162,63 @@
 }
     
 </style>
+<style>
+/* Flyout Modal Styles */
+.modal-flyout {
+  position: fixed;
+  top: 0;
+  right: -400px; /* Hidden by default */
+  width: 350px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  transition: right 0.3s ease;
+}
+
+.modal-flyout.active {
+  right: 0;
+}
+
+.modal-flyout .close {
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  color: #888;
+}
+
+.modal-flyout h3 {
+  margin-top: 0;
+}
+
+.modal-flyout input[type="text"],
+.modal-flyout textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+.modal-flyout button {
+  width: 100%;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .modal-flyout {
+    width: 100%;
+  }
+}
+</style>
 <%
   const appSlug = session?.tenant.slug || 'Your App';
   const appUrl  = session?.user.url || '#';
+  const tenant  = session?.tenant || {};
 %>
 
 <section class="app-overview">
@@ -221,16 +275,68 @@
       </label>
     </div>
 
-    <!-- Invite Users -->
-    <div class="card">
-      <h3>Invite Users</h3>
-      <p class="muted">Grow your user base by inviting others</p>
+ <div class="card">
+  <h3>Invite Users</h3>
+  <p class="muted">Grow your user base by inviting others</p>
 
-      <div class="invite-actions">
-        <button class="btn outline">Copy Link</button>
-        <button class="btn primary">Send Invites</button>
-      </div>
+  <div class="invite-actions" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+    <!-- Invite buttons (always available) -->
+    <button class="btn outline">Copy Link</button>
+    <button class="btn outline">Send Invites</button>
+
+    <% if (tenant.plan === 'free') { %>
+      <!-- Free plan: Upgrade button -->
+      <a href="/multitenant/new-compare-plans" class="btn primary" style="background-color: #2563eb; color: white;">Upgrade Plan</a>
+
+      <% if (!tenant.domain) { %>
+        <button class="btn primary" style="background-color: #10b981; color: white;" onclick="openModal('getDomainModal')">
+          Get Custom Domain
+        </button>
+      <% } else { %>
+        <button class="btn primary" style="background-color: #f59e0b; color: white;" onclick="openModal('manageDomainModal')">
+          Manage Domain
+        </button>
+      <% } %>
+    <% } %>
+  </div>
+</div>
+
+<!-- Get Domain Modal -->
+<div id="getDomainModal" class="modal-flyout">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('getDomainModal')">&times;</span>
+    <h3>Get a Custom Domain</h3>
+    <p>Choose a custom domain for your store:</p>
+    <form action="/multitenant/get-domain" method="POST">
+      <input type="text" name="customDomain" placeholder="e.g. joojo-store.com" required>
+      <button type="submit" class="btn primary">Reserve Domain</button>
+    </form>
+  </div>
+</div>
+
+<!-- Manage Domain Modal -->
+<div id="manageDomainModal" class="modal-flyout">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('manageDomainModal')">&times;</span>
+    <h3>Manage Your Domain</h3>
+    <p>Update your DNS settings or switch domains:</p>
+    <div class="form-group">
+      <label>Current Domain:</label>
+      <input type="text" value="<%= tenant.domain %>" readonly>
     </div>
+    <div class="form-group">
+      <label>Add or Update DNS Records:</label>
+      <textarea placeholder="e.g. A record, CNAME..." rows="6"></textarea>
+    </div>
+    <button class="btn primary">Save DNS</button>
+  </div>
+</div>
+
+
+
+
+
+
 
   </div>
 
@@ -311,3 +417,12 @@
 </div>
 
 </section>
+<script>
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+</script>

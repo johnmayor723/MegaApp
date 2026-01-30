@@ -29,7 +29,17 @@ const TenantSchema = new Schema({
 
   type: {
     type: String,
-    enum: ['restaurant', 'ecommerce', 'blog', 'portfolio', 'school', 'saloon-spa', 'hospital', 'others', 'individual'],
+    enum: [
+      'restaurant', 'ecommerce', 'blog',
+       'portfolio', 'saas', 'education',
+       'nonprofit', 'agency', 'freelancer',
+       'school', 'saloon-spa', 'fitness',
+       'real-estate', 'event', 'travel',
+       'technology', 'finance', 'legal',
+       'marketing', 'media', 'entertainment',
+       'fashion', 'food-beverage', 'automotive',
+       'hospital', 'others', 'individual'
+      ],
     required: true,
   },
   domain: {
@@ -43,11 +53,9 @@ const TenantSchema = new Schema({
     email: { type: String, required: true },
   },
   plan: {
-    provider: { type: String, enum: ['stripe', 'paystack', 'paypal'], default: 'paystack' },
-    planId: { type: String },
-    subscriptionId: { type: String },
-    status: { type: String, enum: ['pending', 'active', 'canceled'], default: 'pending' },
-    currentPeriodEnd: { type: Date },
+    type: String,
+    enum: ['growth', 'free', 'pro', 'bumpa'],
+    default: 'free',
   },
   branding: {
     logoUrl: { type: String, default: '' },
