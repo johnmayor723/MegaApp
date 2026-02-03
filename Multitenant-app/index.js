@@ -23,6 +23,8 @@ const commentRoutes = require("./api/routes/commentRoute");
 const tenantAuthRoutes = require("./api/routes/tenantAuthRoute");
 const menuRoutes = require("./api/routes/MenuRoute");
 const reservationRoutes = require("./api/routes/ReservationRoutes");
+const paystack = require("./routes/paystack-payment");
+
 
 // ===== Client-side Routes =====
 //const clientIndexRouter = require("./routes/index");
@@ -171,6 +173,7 @@ app.use("/multitenant", clientMultitenantRouter);
 //app.use("/orders", clientOrderRouter);
 app.use("/restaurant-management", clientRestaurantRouter);
 app.use("/restaurants", clientRestaurantRouter);  
+app.use("/paystack", paystack);
 
 // ===== Root Route =====
 app.get("/", (req, res) => {
@@ -190,6 +193,7 @@ app.use("/api/menus", tenantResolver, menuRoutes);
 app.use("/api/reservations", tenantResolver, reservationRoutes);
 
 
-
+// 🚫 favicon safety net
+app.get("/favicon.ico", (req, res) => res.sendStatus(204));
 
 module.exports = app
