@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const Subscriber = require('../models/Subscriber');
+//const Subscriber = require('../models/Subscriber');
 
 
 const upload = require('../helpers/multer');

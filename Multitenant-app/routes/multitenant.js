@@ -650,7 +650,9 @@ router.get("/compare-plans", (req, res) => {
     res.render("multitenant/compareplans", { layout: false });
 })
 router.get("/new-compare-plans", (req, res) => {
-    res.render("multitenant/compare-plans", { layout: false });
+    const email = req.session.user ? req.session.user.email : null;
+    console.log("Rendering new-compare-plans for email:", email);
+    res.render("multitenant/compare-plans", { layout: false , email });
 })
 
 router.get("/enroll", (req, res) => {

@@ -6,6 +6,7 @@
   <link rel="icon" type="image/png" href="/multitenant/img/easyicon.png">
   <title>Dashboard</title>
   <link rel="stylesheet" href="/multitenant/css/dashboard.css">
+   <link rel="stylesheet" href="/multitenant/css/overview-content.css">
 </head>
 <body>
 <% if (typeof user === 'undefined') { var user = locals.user; } %>
@@ -97,18 +98,77 @@
 
   <script src="/multitenant/js/dashboard.js"></script>
   <script>
-  function openMenuModal() {
-    const menu = document.getElementById("menuModal");
+    function sanitizeDomainInput(input) {
+      // Remove spaces
+      input.value = input.value.replace(/\s+/g, '');
 
-    if (!menu) {
-      console.error("menuModal not found");
-      return;
+      // Block dots (.)
+      if (input.value.includes('.')) {
+        input.value = input.value.split('.')[0];
+      }
+
+      // Allow only letters, numbers, hyphen
+      input.value = input.value.replace(/[^a-zA-Z0-9-]/g, '');
+    }
+    async function searchDomain() {
+  const input = document.getElementById('domainInput');
+  const resultsBox = document.getElementById('domainResults');
+
+  const name = input.value.trim().toLowerCase();
+  if (!name) return;
+
+  const domain = `${name}.com.ng`;
+
+  resultsBox.innerHTML = `
+    <div class="muted">Checking availability for <strong>${domain}</strong>…</div>
+  `;
+
+  try {
+   const res = await fetch('http://easyhostnet.localhost:3060/api/domain/check-domain', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ domain }) // send domain in request body
+    });
+    const data = await res.json();
+
+    if (data.available === true) {
+      resultsBox.innerHTML = `
+        <div class="domain-row available">
+          <strong>${domain}</strong>
+          <span style='padding:0 10px' class="badge success">Available</span>
+          <button class="btn primary" style="margin-left:auto; font-size:15px;padding:15px 10px">
+            Claim Domain
+          </button>
+        </div>
+      `;
+    } else if (data.available === false) {
+      resultsBox.innerHTML = `
+        <div class="domain-row unavailable">
+          <strong>${domain}</strong>
+          <span class="badge danger">Not Available</span>
+        </div>
+      `;
+    } else {
+      resultsBox.innerHTML = `
+        <div class="domain-row error">
+          Unable to check domain right now.
+        </div>
+      `;
     }
 
-    menu.style.display =
-      menu.style.display === "block" ? "none" : "block";
+  } catch (err) {
+    console.error(err);
+    resultsBox.innerHTML = `
+      <div class="domain-row error">
+        Network error. Please try again.
+      </div>
+    `;
   }
+}
 </script>
+
 
   
 </body>

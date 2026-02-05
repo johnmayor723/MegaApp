@@ -11,9 +11,13 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "axios": "^1.13.4",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.1.5",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "whois-api-js": "^1.0.0",
+    "whois-json": "^2.0.4",
+    "whois-promise": "^1.2.4"
   }
 }

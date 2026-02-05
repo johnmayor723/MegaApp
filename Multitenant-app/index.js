@@ -24,6 +24,9 @@ const tenantAuthRoutes = require("./api/routes/tenantAuthRoute");
 const menuRoutes = require("./api/routes/MenuRoute");
 const reservationRoutes = require("./api/routes/ReservationRoutes");
 const paystack = require("./routes/paystack-payment");
+const domain = require("./api/routes/domain");
+//const domainDns = require('./routes/domain-dns.js');
+
 
 
 // ===== Client-side Routes =====
@@ -174,6 +177,7 @@ app.use("/multitenant", clientMultitenantRouter);
 app.use("/restaurant-management", clientRestaurantRouter);
 app.use("/restaurants", clientRestaurantRouter);  
 app.use("/paystack", paystack);
+//app.use("/domain-dns", domainDns);
 
 // ===== Root Route =====
 app.get("/", (req, res) => {
@@ -191,6 +195,7 @@ app.use("/api/tenant-auth", tenantAuthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/menus", tenantResolver, menuRoutes);
 app.use("/api/reservations", tenantResolver, reservationRoutes);
+app.use("/api/domain", domain);
 
 
 // 🚫 favicon safety net
