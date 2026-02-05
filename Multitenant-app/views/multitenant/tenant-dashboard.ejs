@@ -138,7 +138,7 @@
         <div class="domain-row available">
           <strong>${domain}</strong>
           <span style='padding:0 10px' class="badge success">Available</span>
-          <button class="btn primary" style="margin-left:auto; font-size:15px;padding:15px 10px">
+          <button class="btn primary" style="margin-left:auto; font-size:15px;padding:8px 10px" onclick="reserveDomain('${domain}')">
             Claim Domain
           </button>
         </div>
@@ -167,6 +167,44 @@
     `;
   }
 }
+async function reserveDomain(domain) {
+  const resultsBox = document.getElementById('domainResults');
+
+  resultsBox.innerHTML = `
+    <div class="muted">Reserving <strong>${domain}</strong>…</div>
+  `;
+
+  try {
+    const res = await fetch(`http://easyhostnet.localhost:3060/api/domain/get-domain`, {
+      method: 'POST', // assuming POST for reservation
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain })
+    });
+
+    if (res.ok) {
+      // Redirect to dashboard if status is 200
+      window.location.href = 'http://easyhostnet.localhost:3060/multitenant/dashboard';
+      return; // stop further execution
+    }
+
+    // If response is not 200, show error
+    const data = await res.json();
+    resultsBox.innerHTML = `
+      <div class="domain-row error">
+        Failed to reserve domain: ${data.message || 'Unknown error'}
+      </div>
+    `;
+
+  } catch (err) {
+    console.error(err);
+    resultsBox.innerHTML = `
+      <div class="domain-row error">
+        Network error. Please try again.
+      </div>
+    `;
+  }
+}
+
 </script>
 
 
